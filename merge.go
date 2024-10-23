@@ -1,6 +1,9 @@
 package merge
 
-import "sort"
+import (
+	"errors"
+	"sort"
+)
 
 type Interval struct {
 	Begin int
@@ -26,9 +29,14 @@ func (i ByBegin) Less(a, b int) bool {
 //
 // Each interval consists of two integer values defining its beginning and its end.
 // If interval A.End is greater or equal to B.Begin, A and B are considered overlapping.
-func MergeIntervals(intervals []Interval) []Interval {
+func MergeIntervals(intervals []Interval) ([]Interval, error) {
+	for _, i := range intervals {
+		if i.Begin > i.End {
+			return []Interval{}, errors.New("invalid interval")
+		}
+	}
 	if len(intervals) <= 1 {
-		return intervals
+		return intervals, nil
 	}
 
 	// Sort intervals by beginning.
@@ -53,5 +61,5 @@ func MergeIntervals(intervals []Interval) []Interval {
 
 	result = append(result, prev)
 
-	return result
+	return result, nil
 }
