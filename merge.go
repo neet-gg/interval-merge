@@ -24,23 +24,15 @@ func (i ByBegin) Less(a, b int) bool {
 // MergeInterval takes a list of intervals and merges
 // all overlapping intervals.
 //
-// Each interval consists of two integer values
-// defining its beginning and its end.
-// If interval A.End equals B.Begin, A and B are considered overlapping.
-// If Interval A.End + 1 equals B.Begin, A and B are considered non-overlapping
-//
-// Example: [{25,30}, {2,19}, {14,23}] -> [{2,23}, {25,30}]
+// Each interval consists of two integer values defining its beginning and its end.
+// If interval A.End is greater or equal to B.Begin, A and B are considered overlapping.
 func MergeIntervals(intervals []Interval) []Interval {
-	// Base case
 	if len(intervals) <= 1 {
 		return intervals
 	}
 
 	// Sort intervals by beginning.
 	// This way we only need to compare each interval to its predecessor.
-	// Let I be the list of intervals:
-	// Since I[i].Begin < I[i+1].Begin, if I[i].End < I[i+1].Begin
-	// it follows that I[i].End < I[i+n].Begin for all n > 1.
 	sort.Sort(ByBegin(intervals))
 
 	result := []Interval{}
