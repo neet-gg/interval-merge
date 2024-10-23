@@ -10,6 +10,7 @@ type Interval struct {
 	End   int
 }
 
+// Implementation of Sort interface to sort intervals by their Begin value
 type ByBegin []Interval
 
 func (i ByBegin) Len() int {
